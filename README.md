@@ -11,7 +11,3 @@ A smart AI-based solution for traffic management on routes with heavy traffic fr
 - Simulation environment for testing
 - User interface for monitoring and manual control
 - REST API for integration with other systems
-
-## Project Structure
-
-smart_traffic_management/ ├── data/ │ ├── training_data/ │ └── test_data/ ├── models/ │ ├── saved_models/ │ └── model_checkpoints/ ├── src/ │ ├── monitoring/ │ │ ├── camera.py │ │ ├── vehicle_detection.py │ │ └── traffic_density.py │ ├── processing/ │ │ ├── data_preprocessing.py │
