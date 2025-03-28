@@ -11,9 +11,11 @@
 {% block content %}
     <div id="message" class="message" style="display: none;"></div>
     
-    <h2>Backup Management</h2>
-    <p>Create or restore backups of the system configuration and data.</p>
-    <button id="create-backup-btn" class="button">Create New Backup</button>
+    <div class="backup-section">
+        <h2>Backup Management</h2>
+        <p>Create or restore backups of the system configuration and data.</p>
+        <button id="create-backup-btn" class="button">Create New Backup</button>
+    </div>
     
     <h2>Available Backups</h2>
     {% if backup_files %}
@@ -36,7 +38,7 @@
     <p>No backups available.</p>
     {% endif %}
     
-    <div style="margin-top: 20px;">
+    <div class="navigation-section">
         <a href="/" class="button secondary">Back to Dashboard</a>
     </div>
 {% endblock %}
