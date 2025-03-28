@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Smart Traffic Management System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block header %}Traffic Management Dashboard{% endblock %}
+
+{% block content %}
+    <div class="dashboard-grid">
+        <div class="dashboard-panel">
+            <h2>Intersection Status</h2>
+            <div id="intersection-view">
+                <div style="text-align: center;">
+                    <div class="traffic-light north">
+                        <div class="light red"></div>
+                        <div class="light yellow"></div>
+                        <div class="light green"></div>
+                    </div>
+                    <div>North</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin: 20px 0;">
+                    <div style="text-align: center;">
+                        <div class="traffic-light west">
+                            <div class="light red"></div>
+                            <div class="light yellow"></div>
+                            <div class="light green"></div>
+                        </div>
+                        <div>West</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="traffic-light east">
+                            <div class="light red"></div>
+                            <div class="light yellow"></div>
+                            <div class="light green"></div>
+                        </div>
+                        <div>East</div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <div class="traffic-light south">
+                        <div class="light red"></div>
+                        <div class="light yellow"></div>
+                        <div class="light green"></div>
+                    </div>
+                    <div>South</div>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <h3>Current Phase: <span id="current-phase">Initializing...</span></h3>
+                <h3>Remaining Time: <span id="remaining-time">--</span></h3>
+            </div>
+        </div>
+        
+        <div class="dashboard-panel">
+            <h2>Traffic Metrics</h2>
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-title">Average Wait Time</div>
+                    <div class="metric-value" id="avg-wait-time">12.5s</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Max Wait Time</div>
+                    <div class="metric-value" id="max-wait-time">25.8s</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Throughput</div>
+                    <div class="metric-value" id="throughput">42 veh/min</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Queue Length</div>
+                    <div class="metric-value" id="queue-length">15 vehicles</div>
+                </div>
+            </div>
+            
+            <h3>Traffic Density</h3>
+            <canvas id="traffic-chart"></canvas>
+        </div>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <h2>System Controls</h2>
+        <div style="display: flex; gap: 10px;">
+            <div>
+                <label for="strategy-select">Optimization Strategy:</label>
+                <select id="strategy-select">
+                    <option value="fixed">Fixed Time</option>
+                    <option value="proportional" selected>Proportional</option>
+                    <option value="webster">Webster</option>
+                    <option value="adaptive">Adaptive</option>
+                </select>
+            </div>
+            <button id="apply-strategy" class="button">Apply Strategy</button>
+        </div>
+    </div>
+    
+    <div style="margin-top: 20px; text-align: center;">
+        <a href="/" class="button">Back to Home</a>
+        <a href="{{ url_for('logout') }}" class="button">Logout</a>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Load Chart.js first if needed -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Then load your dashboard.js for metrics and charts -->
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<!-- Finally load the traffic simulation -->
+<script src="{{ url_for('static', filename='js/traffic-simulation.js') }}"></script>
+
+<script>
+// Immediate initialization script to ensure traffic lights start correctly
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Dashboard initialized');
+    
+    // Initialize traffic light state
+    function initTrafficLights() {
+        // First, remove any existing active classes
+        document.querySelectorAll('.light.active').forEach(light => {
+            light.classList.remove('active');
+        });
+        
+        // Set initial state: North-South Red, East-West Green
+        document.querySelector('.north .red').classList.add('active');
+        document.querySelector('.south .red').classList.add('active');
+        document.querySelector('.east .green').classList.add('active');
+        document.querySelector('.west .green').classList.add('active');
+        
+        // Update phase display
+        document.getElementById('current-phase').textContent = 'North-South Red, East-West Green';
+    }
+    
+    // Call initialization
+    initTrafficLights();
+});
+</script>
+{% endblock %}

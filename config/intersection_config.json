@@ -1,0 +1,50 @@
+{
+  "intersection": {
+    "id": "intersection_1",
+    "name": "Main Street & Broadway",
+    "phases": [
+      {
+        "id": 1,
+        "directions": ["north", "south"],
+        "min_time": 20,
+        "max_time": 90
+      },
+      {
+        "id": 2,
+        "directions": ["east", "west"],
+        "min_time": 20,
+        "max_time": 90
+      }
+    ],
+    "yellow_time": 3,
+    "all_red_time": 2
+  },
+  "zones": {
+    "zone_1": {
+      "direction": "north",
+      "polygon": [[100, 0], [150, 0], [150, 100], [100, 100]],
+      "is_intersection": false
+    },
+    "zone_2": {
+      "direction": "south",
+      "polygon": [[100, 300], [150, 300], [150, 400], [100, 400]],
+      "is_intersection": false
+    },
+    "zone_3": {
+      "direction": "east",
+      "polygon": [[300, 100], [400, 100], [400, 150], [300, 150]],
+      "is_intersection": false
+    },
+    "zone_4": {
+      "direction": "west",
+      "polygon": [[0, 100], [100, 100], [100, 150], [0, 150]],
+      "is_intersection": false
+    }
+  },
+  "direction_to_zone": {
+    "north": "zone_1",
+    "south": "zone_2",
+    "east": "zone_3",
+    "west": "zone_4"
+  }
+}

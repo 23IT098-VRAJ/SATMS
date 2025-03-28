@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}System Administration - Smart Traffic Management System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block header %}System Administration <span class="admin-badge">Admin Only</span>{% endblock %}
+
+{% block content %}
+    <div id="message" class="message" style="display: none;"></div>
+    
+    <h2>Backup Management</h2>
+    <p>Create or restore backups of the system configuration and data.</p>
+    <button id="create-backup-btn" class="button">Create New Backup</button>
+    
+    <h2>Available Backups</h2>
+    {% if backup_files %}
+    <table>
+        <tr>
+            <th>Backup Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for file in backup_files %}
+        <tr>
+            <td>{{ file.replace('backup_', '').replace('.zip', '').replace('_', ' ') }}</td>
+            <td>
+                <button class="button restore-btn" data-file="{{ file }}">Restore</button>
+                <button class="button danger delete-btn" data-file="{{ file }}">Delete</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No backups available.</p>
+    {% endif %}
+    
+    <div style="margin-top: 20px;">
+        <a href="/" class="button secondary">Back to Dashboard</a>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

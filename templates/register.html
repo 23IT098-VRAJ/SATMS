@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Smart Traffic Management System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock %}
+
+{% block header %}Register{% endblock %}
+
+{% block content %}
+    <div class="auth-container">
+        <div id="message" class="message" style="display: none;"></div>
+        <form id="register-form">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            <button type="submit" class="button">Register</button>
+        </form>
+        <div class="form-footer">
+            <p>Already have an account? <a href="{{ url_for('login_page') }}">Login</a></p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('register-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const message = document.getElementById('message');
+        
+        if (password !== confirmPassword) {
+            message.textContent = 'Passwords do not match';
+            message.className = 'error';
+            message.style.display = 'block';
+            return;
+        }
+        
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                message.textContent = data.error;
+                message.className = 'error';
+            } else {
+                message.textContent = data.message;
+                message.className = 'success';
+                document.getElementById('register-form').reset();
+                
+                // Redirect to login page after successful registration
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            }
+            message.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+{% endblock %}

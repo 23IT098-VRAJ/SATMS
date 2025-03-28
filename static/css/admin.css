@@ -1,0 +1,26 @@
+/* Admin page specific styles */
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 20px; 
+}
+
+th, td { 
+    text-align: left; 
+    padding: 12px; 
+    border-bottom: 1px solid #ddd; 
+}
+
+th { 
+    background-color: #f2f2f2; 
+}
+
+.admin-badge { 
+    display: inline-block; 
+    background-color: #e74c3c; 
+    color: white; 
+    padding: 4px 8px; 
+    border-radius: 3px; 
+    font-size: 12px; 
+    margin-left: 10px; 
+}

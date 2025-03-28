@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Smart Traffic Management System{% endblock %}
+
+{% block content %}
+    <h2>Welcome, {{ user }}!</h2>
+    <p>You are logged in to the Smart Traffic Management System.</p>
+    <p>Use the buttons below to navigate:</p>
+    <p><a href="{{ url_for('dashboard_web') }}" class="button">Access Dashboard</a></p>
+    {% if is_admin %}
+    <p><a href="{{ url_for('admin_backup_page') }}" class="button">System Administration</a></p>
+    {% endif %}
+    <p><a href="{{ url_for('logout') }}" class="button">Logout</a></p>
+{% endblock %}
