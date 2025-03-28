@@ -21,24 +21,6 @@
                     </div>
                     <div>North</div>
                 </div>
-                <div style="display: flex; justify-content: space-between; margin: 20px 0;">
-                    <div style="text-align: center;">
-                        <div class="traffic-light west">
-                            <div class="light red"></div>
-                            <div class="light yellow"></div>
-                            <div class="light green"></div>
-                        </div>
-                        <div>West</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div class="traffic-light east">
-                            <div class="light red"></div>
-                            <div class="light yellow"></div>
-                            <div class="light green"></div>
-                        </div>
-                        <div>East</div>
-                    </div>
-                </div>
                 <div style="text-align: center;">
                     <div class="traffic-light south">
                         <div class="light red"></div>
@@ -47,8 +29,24 @@
                     </div>
                     <div>South</div>
                 </div>
+                <div style="text-align: center;">
+                    <div class="traffic-light east">
+                        <div class="light red"></div>
+                        <div class="light yellow"></div>
+                        <div class="light green"></div>
+                    </div>
+                    <div>East</div>
+                </div>
+                <div style="text-align: center;">
+                    <div class="traffic-light west">
+                        <div class="light red"></div>
+                        <div class="light yellow"></div>
+                        <div class="light green"></div>
+                    </div>
+                    <div>West</div>
+                </div>
             </div>
-            <div style="margin-top: 20px;">
+            <div class="current-status">
                 <h3>Current Phase: <span id="current-phase">Initializing...</span></h3>
                 <h3>Remaining Time: <span id="remaining-time">--</span></h3>
             </div>
@@ -80,11 +78,11 @@
         </div>
     </div>
     
-    <div style="margin-top: 20px;">
+    <div class="system-controls">
         <h2>System Controls</h2>
-        <div style="display: flex; gap: 10px;">
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
             <div>
-                <label for="strategy-select">Optimization Strategy:</label>
+                <label for="strategy-select" class="control-label">Optimization Strategy:</label>
                 <select id="strategy-select">
                     <option value="fixed">Fixed Time</option>
                     <option value="proportional" selected>Proportional</option>
@@ -96,43 +94,34 @@
         </div>
     </div>
     
-    <div style="margin-top: 20px; text-align: center;">
+    <div class="navigation-section">
         <a href="/" class="button">Back to Home</a>
-        <a href="{{ url_for('logout') }}" class="button">Logout</a>
+        <a href="{{ url_for('logout') }}" class="button secondary">Logout</a>
     </div>
 {% endblock %}
 
 {% block scripts %}
-<!-- Load Chart.js first if needed -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Then load your dashboard.js for metrics and charts -->
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-<!-- Finally load the traffic simulation -->
 <script src="{{ url_for('static', filename='js/traffic-simulation.js') }}"></script>
 
 <script>
-// Immediate initialization script to ensure traffic lights start correctly
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Dashboard initialized');
     
-    // Initialize traffic light state
     function initTrafficLights() {
-        // First, remove any existing active classes
         document.querySelectorAll('.light.active').forEach(light => {
             light.classList.remove('active');
         });
         
-        // Set initial state: North-South Red, East-West Green
         document.querySelector('.north .red').classList.add('active');
         document.querySelector('.south .red').classList.add('active');
         document.querySelector('.east .green').classList.add('active');
         document.querySelector('.west .green').classList.add('active');
         
-        // Update phase display
         document.getElementById('current-phase').textContent = 'North-South Red, East-West Green';
     }
     
-    // Call initialization
     initTrafficLights();
 });
 </script>
