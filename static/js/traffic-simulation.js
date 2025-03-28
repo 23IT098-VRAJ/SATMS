@@ -1,63 +1,73 @@
-// Traffic simulation functions
+// Create traffic chart
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Traffic simulation script loaded');
-    
-    // Make sure elements exist before trying to use them
-    if (!document.getElementById('remaining-time') || 
-        !document.getElementById('current-phase')) {
-        console.error('Required dashboard elements not found');
-        return;
-    }
-    
-    console.log('Found remaining-time element:', !!document.getElementById('remaining-time'));
-    console.log('Found current-phase element:', !!document.getElementById('current-phase'));
-    console.log('Found traffic lights:', !!document.querySelector('.traffic-light'));
-    
-    // Simulate traffic light changes
-    let countdown = 15;
-    let currentState = 'NS_RED'; // Start with North-South Red (East-West Green)
-    
-    // Update countdown immediately
-    document.getElementById('remaining-time').textContent = `${countdown}s`;
-    
-    const timerInterval = setInterval(() => {
-        countdown--;
-        
-        // Update the timer display
-        document.getElementById('remaining-time').textContent = `${countdown}s`;
-        
-        if (countdown <= 0) {
-            // Change lights
-            document.querySelectorAll('.light.active').forEach(light => {
-                light.classList.remove('active');
-            });
-            
-            // Toggle between states
-            if (currentState === 'NS_RED') {
-                // Change to North-South Green, East-West Red
-                document.querySelector('.north .green').classList.add('active');
-                document.querySelector('.south .green').classList.add('active');
-                document.querySelector('.east .red').classList.add('active');
-                document.querySelector('.west .red').classList.add('active');
-                document.getElementById('current-phase').textContent = 'North-South Green, East-West Red';
-                currentState = 'NS_GREEN';
-            } else {
-                // Change to North-South Red, East-West Green
-                document.querySelector('.north .red').classList.add('active');
-                document.querySelector('.south .red').classList.add('active');
-                document.querySelector('.east .green').classList.add('active');
-                document.querySelector('.west .green').classList.add('active');
-                document.getElementById('current-phase').textContent = 'North-South Red, East-West Green';
-                currentState = 'NS_RED';
+    // Sample data for chart
+    const trafficData = {
+        labels: Array.from({length: 20}, (_, i) => `${i*5}m ago`).reverse(),
+        datasets: [
+            {
+                label: 'North',
+                data: Array.from({length: 20}, () => Math.floor(Math.random() * 20) + 5),
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            },
+            {
+                label: 'South',
+                data: Array.from({length: 20}, () => Math.floor(Math.random() * 20) + 5),
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            },
+            {
+                label: 'East',
+                data: Array.from({length: 20}, () => Math.floor(Math.random() * 20) + 5),
+                borderColor: 'rgba(255, 206, 86, 1)',
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+            },
+            {
+                label: 'West',
+                data: Array.from({length: 20}, () => Math.floor(Math.random() * 20) + 5),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
             }
-            
-            // Reset countdown
-            countdown = 15;
-        }
-    }, 1000);
+        ]
+    };
     
-    // Clean up interval when page changes
-    window.addEventListener('beforeunload', function() {
-        clearInterval(timerInterval);
+    const ctx = document.getElementById('traffic-chart').getContext('2d');
+    const trafficChart = new Chart(ctx, {
+        type: 'line',
+        data: trafficData,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Vehicle Count'
+                    }
+                }
+            }
+        }
     });
+    
+    // Apply strategy button
+    document.getElementById('apply-strategy').addEventListener('click', function() {
+        const strategy = document.getElementById('strategy-select').value;
+        alert(`Strategy changed to: ${strategy}`);
+        // In a real implementation, this would call an API endpoint
+    });
+    
+    // Simulate traffic metrics updates
+    setInterval(() => {
+        document.getElementById('avg-wait-time').textContent = `${(Math.random() * 20 + 5).toFixed(1)}s`;
+        document.getElementById('max-wait-time').textContent = `${(Math.random() * 30 + 15).toFixed(1)}s`;
+        document.getElementById('throughput').textContent = `${Math.floor(Math.random() * 20 + 30)} veh/min`;
+        document.getElementById('queue-length').textContent = `${Math.floor(Math.random() * 20 + 5)} vehicles`;
+        
+        // Update chart data
+        trafficChart.data.datasets.forEach(dataset => {
+            dataset.data.shift();
+            dataset.data.push(Math.floor(Math.random() * 20) + 5);
+        });
+        trafficChart.update();
+    }, 5000);
 });
