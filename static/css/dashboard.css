@@ -1,199 +1,206 @@
 .dashboard-grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: var(--space-5);
-  }
-  
-  .dashboard-panel { 
-    background-color: white;
-    padding: var(--space-5);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
-    height: 100%;
-    border: 1px solid var(--neutral-200);
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .dashboard-panel:hover {
-    box-shadow: var(--shadow-lg);
-  }
-  
-  .dashboard-panel h2 {
-    color: var(--primary);
-    border-bottom: 1px solid var(--neutral-200);
-    padding-bottom: var(--space-3);
-    margin-bottom: var(--space-4);
-  }
-  
-  #intersection-view {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: var(--space-5);
+}
+
+.dashboard-panel { 
+  background-color: white;
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  height: 100%;
+  border: 1px solid var(--neutral-200);
+  transition: box-shadow 0.3s ease;
+}
+
+.dashboard-panel:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.dashboard-panel h2 {
+  color: var(--primary);
+  border-bottom: 1px solid var(--neutral-200);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+#intersection-view {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.traffic-light { 
+  width: 46px; 
+  height: 140px; 
+  background-color: var(--neutral-800);
+  border-radius: var(--radius-lg);
+  margin: var(--space-3);
+  display: inline-block; 
+  position: relative; 
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.2);
+  border: 3px solid #111827;
+}
+
+.light { 
+  width: 36px; 
+  height: 36px; 
+  border-radius: 50%; 
+  position: absolute; 
+  left: 5px; 
+  opacity: 0.3; 
+  transition: all 0.3s ease; 
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+}
+
+.red { 
+  background-color: var(--traffic-red);
+  top: 10px; 
+}
+
+.yellow { 
+  background-color: var(--traffic-yellow);
+  top: 52px; 
+}
+
+.green { 
+  background-color: var(--traffic-green);
+  top: 94px; 
+}
+
+.active { 
+  opacity: 1; 
+  box-shadow: 0 0 20px 5px rgba(255,255,255,0.6);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 15px 3px rgba(255,255,255,0.4); }
+  50% { box-shadow: 0 0 25px 8px rgba(255,255,255,0.6); }
+  100% { box-shadow: 0 0 15px 3px rgba(255,255,255,0.4); }
+}
+
+.current-status {
+  background-color: var(--primary-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-top: var(--space-5);
+  border: 1px solid rgba(8, 145, 178, 0.2);
+}
+
+.current-status h3 {
+  margin-top: 0;
+  margin-bottom: var(--space-2);
+  font-size: 1rem;
+  color: var(--primary-dark);
+}
+
+.current-status span {
+  font-weight: 600;
+  color: var(--neutral-800);
+}
+
+.metrics { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.metric-card { 
+  background-color: var(--neutral-50);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--neutral-200);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background-color: var(--primary-light);
+}
+
+.metric-title { 
+  font-size: 0.875rem;
+  color: var(--neutral-600);
+  margin-bottom: var(--space-1);
+  font-weight: 500;
+}
+
+.metric-value { 
+  font-size: 1.5rem;
+  font-weight: 600; 
+  color: var(--primary);
+}
+
+#traffic-chart { 
+  width: 100%; 
+  height: 300px;
+  margin-top: var(--space-4);
+  border-radius: var(--radius-sm);
+  background-color: var(--neutral-50);
+  padding: var(--space-2);
+  border: 1px solid var(--neutral-200);
+}
+
+.system-controls {
+  background-color: var(--primary-bg);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-6);
+  border: 1px solid rgba(8, 145, 178, 0.2);
+}
+
+.system-controls h2 {
+  color: var(--primary-dark);
+  margin-top: 0;
+}
+
+#strategy-select {
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--neutral-300);
+  font-size: 0.9375rem;
+  background-color: white;
+}
+
+#strategy-select:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.control-label {
+  display: block; 
+  margin-bottom: var(--space-2);
+  font-weight: 500;
+  color: var(--primary-dark);
+}
+
+.navigation-section {
+  margin-top: var(--space-6);
+  text-align: center;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--neutral-200);
+}
+
+@media (max-width: 992px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
     gap: var(--space-4);
-    margin-top: var(--space-4);
   }
-  
-  .traffic-light { 
-    width: 46px; 
-    height: 140px; 
-    background-color: var(--neutral-800);
-    border-radius: var(--radius-lg);
-    margin: var(--space-3);
-    display: inline-block; 
-    position: relative; 
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.2);
-    border: 3px solid #111827;
+}
+
+@media (max-width: 768px) {
+  .metrics {
+    grid-template-columns: 1fr;
   }
-  
-  .light { 
-    width: 36px; 
-    height: 36px; 
-    border-radius: 50%; 
-    position: absolute; 
-    left: 5px; 
-    opacity: 0.3; 
-    transition: all 0.3s ease; 
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
-  }
-  
-  .red { 
-    background-color: var(--traffic-red);
-    top: 10px; 
-  }
-  
-  .yellow { 
-    background-color: var(--traffic-yellow);
-    top: 52px; 
-  }
-  
-  .green { 
-    background-color: var(--traffic-green);
-    top: 94px; 
-  }
-  
-  .active { 
-    opacity: 1; 
-    box-shadow: 0 0 20px 5px rgba(255,255,255,0.6);
-    animation: pulse 1.5s infinite;
-  }
-  
-  @keyframes pulse {
-    0% { box-shadow: 0 0 15px 3px rgba(255,255,255,0.4); }
-    50% { box-shadow: 0 0 25px 8px rgba(255,255,255,0.6); }
-    100% { box-shadow: 0 0 15px 3px rgba(255,255,255,0.4); }
-  }
-  
-  .current-status {
-    background-color: var(--primary-light);
-    border-radius: var(--radius-md);
-    padding: var(--space-4);
-    margin-top: var(--space-5);
-    border: 1px solid rgba(8, 145, 178, 0.2);
-  }
-  
-  .current-status h3 {
-    margin-top: 0;
-    margin-bottom: var(--space-2);
-    font-size: 1rem;
-    color: var(--primary-dark);
-  }
-  
-  .current-status span {
-    font-weight: 600;
-    color: var(--neutral-800);
-  }
-  
-  .metrics { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: var(--space-4);
-    margin-bottom: var(--space-5);
-  }
-  
-  .metric-card { 
-    background-color: var(--neutral-50);
-    padding: var(--space-4);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--neutral-200);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .metric-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    background-color: var(--primary-light);
-  }
-  
-  .metric-title { 
-    font-size: 0.875rem;
-    color: var(--neutral-600);
-    margin-bottom: var(--space-1);
-    font-weight: 500;
-  }
-  
-  .metric-value { 
-    font-size: 1.5rem;
-    font-weight: 600; 
-    color: var(--primary);
-  }
-  
-  #traffic-chart { 
-    width: 100%; 
-    height: 300px;
-    margin-top: var(--space-4);
-    border-radius: var(--radius-sm);
-    background-color: var(--neutral-50);
-    padding: var(--space-2);
-    border: 1px solid var(--neutral-200);
-  }
-  
-  .system-controls {
-    background-color: var(--primary-bg);
-    padding: var(--space-5);
-    border-radius: var(--radius-md);
-    margin-top: var(--space-6);
-    border: 1px solid rgba(8, 145, 178, 0.2);
-  }
-  
-  .system-controls h2 {
-    color: var(--primary-dark);
-    margin-top: 0;
-  }
-  
-  #strategy-select {
-    padding: var(--space-2);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--neutral-300);
-    font-size: 0.9375rem;
-    background-color: white;
-  }
-  
-  #strategy-select:focus {
-    border-color: var(--primary);
-    outline: none;
-    box-shadow: 0 0 0 2px var(--primary-light);
-  }
-  
-  .control-label {
-    display: block; 
-    margin-bottom: var(--space-2);
-    font-weight: 500;
-    color: var(--primary-dark);
-  }
-  
-  .navigation-section {
-    margin-top: var(--space-6);
-    text-align: center;
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--neutral-200);
-  }
-  
-  @media (max-width: 992px) {
-    .dashboard-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-4);
-    }
-  }
+}
+
   
   @media (max-width: 768px) {
     .metrics {
