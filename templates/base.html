@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Smart Traffic Management System{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     {% block extra_css %}{% endblock %}
@@ -9,7 +11,9 @@
 </head>
 <body>
     <div class="header">
-        <h1>{% block header %}Smart Traffic Management System{% endblock %}</h1>
+        <div class="container">
+            <h1>{% block header %}Smart Traffic Management System{% endblock %}</h1>
+        </div>
     </div>
     <div class="container">
         <div class="content">
