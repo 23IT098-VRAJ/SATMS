@@ -1,250 +1,248 @@
 :root {
-    --primary: #0891b2;
-    --primary-dark: #0e7490;
-    --primary-light: #ecfeff;
-    --primary-bg: #cffafe;
-    
-    --secondary: #64748b;
-    --secondary-dark: #475569;
-    
-    --success: #10b981;
-    --danger: #ef4444;
-    --warning: #f59e0b;
-    
-    --neutral-50: #f8fafc;
-    --neutral-100: #f1f5f9;
-    --neutral-200: #e2e8f0;
-    --neutral-300: #cbd5e1;
-    --neutral-400: #94a3b8;
-    --neutral-500: #64748b;
-    --neutral-600: #475569;
-    --neutral-700: #334155;
-    --neutral-800: #1e293b;
-    --neutral-900: #0f172a;
-    
-    --traffic-red: #ef4444;
-    --traffic-yellow: #f59e0b;
-    --traffic-green: #10b981;
-    
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-    
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
+  --primary: #0891b2;
+  --primary-dark: #0e7490;
+  --primary-light: #ecfeff;
+  --primary-bg: #cffafe;
+  
+  --secondary: #64748b;
+  --secondary-dark: #475569;
+  
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  
+  --neutral-50: #f8fafc;
+  --neutral-100: #f1f5f9;
+  --neutral-200: #e2e8f0;
+  --neutral-300: #cbd5e1;
+  --neutral-400: #94a3b8;
+  --neutral-500: #64748b;
+  --neutral-600: #475569;
+  --neutral-700: #334155;
+  --neutral-800: #1e293b;
+  --neutral-900: #0f172a;
+  
+  --traffic-red: #ef4444;
+  --traffic-yellow: #f59e0b;
+  --traffic-green: #10b981;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+body { 
+  font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+  margin: 0; 
+  padding: 0; 
+  background-color: var(--neutral-50);
+  color: var(--neutral-700);
+  line-height: 1.5;
+}
+
+.container { 
+  width: 90%; 
+  max-width: 1200px;
+  margin: 0 auto; 
+  padding: var(--space-4) 0;
+}
+
+.header { 
+  background-image: linear-gradient(to right, var(--primary), var(--primary-dark));
+  color: white; 
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+.header h1 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.75rem;
+}
+
+.content { 
+  background-color: white; 
+  padding: var(--space-6);
+  margin-top: var(--space-5);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--neutral-200);
+}
+
+.footer { 
+  text-align: center; 
+  margin-top: var(--space-8);
+  padding: var(--space-4); 
+  color: var(--neutral-500);
+  font-size: 0.875rem;
+}
+
+h1, h2, h3, h4 {
+  margin-top: 0;
+  color: var(--neutral-800);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h2 { 
+  font-size: 1.5rem; 
+  margin-bottom: var(--space-4);
+  color: var(--primary-dark);
+}
+
+h3 { 
+  font-size: 1.25rem; 
+  margin-bottom: var(--space-3);
+  color: var(--neutral-700);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+.button { 
+  display: inline-block; 
+  background-color: var(--primary);
+  color: white; 
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  border: none;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.button:hover { 
+  background-color: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.button.secondary { 
+  background-color: var(--secondary);
+}
+
+.button.secondary:hover { 
+  background-color: var(--secondary-dark);
+}
+
+.button.danger { 
+  background-color: var(--danger);
+}
+
+.button.danger:hover { 
+  background-color: #dc2626;
+}
+
+.button.success {
+  background-color: var(--success);
+}
+
+.button.success:hover {
+  background-color: #059669;
+}
+
+.auth-container {
+  max-width: 420px;
+  margin: var(--space-6) auto;
+  padding: var(--space-6);
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--neutral-200);
+}
+
+.form-group { 
+  margin-bottom: var(--space-4);
+}
+
+.form-group label { 
+  display: block; 
+  margin-bottom: var(--space-2);
+  font-weight: 500;
+  color: var(--neutral-700);
+}
+
+.form-group input { 
+  width: 100%; 
+  padding: var(--space-3);
+  box-sizing: border-box; 
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-light);
+  outline: none;
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: var(--space-6);
+  color: var(--neutral-600);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--neutral-200);
+}
+
+.message { 
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-sm);
+  border-left: 4px solid transparent;
+}
+
+.success { 
+  background-color: rgba(16, 185, 129, 0.1);
+  border-left-color: var(--success);
+  color: #065f46;
+}
+
+.error { 
+  background-color: rgba(239, 68, 68, 0.1);
+  border-left-color: var(--danger);
+  color: #b91c1c;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
   }
   
-  body { 
-    font-family: 'Inter', system-ui, -apple-system, sans-serif; 
-    margin: 0; 
-    padding: 0; 
-    background-color: var(--neutral-50);
-    color: var(--neutral-700);
-    line-height: 1.5;
+  .content {
+    padding: var(--space-4);
   }
   
-  .container { 
-    width: 90%; 
-    max-width: 1200px;
-    margin: 0 auto; 
-    padding: var(--space-4) 0;
-  }
-  
-  .header { 
-    background-image: linear-gradient(to right, var(--primary), var(--primary-dark));
-    color: white; 
-    padding: var(--space-6);
-    box-shadow: var(--shadow-md);
-  }
-  
-  .header h1 {
-    margin: 0;
-    font-weight: 600;
-    font-size: 1.75rem;
-  }
-  
-  .content { 
-    background-color: white; 
-    padding: var(--space-6);
-    margin-top: var(--space-5);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--neutral-200);
-  }
-  
-  .footer { 
-    text-align: center; 
-    margin-top: var(--space-8);
-    padding: var(--space-4); 
-    color: var(--neutral-500);
+  .button {
+    padding: var(--space-2) var(--space-3);
     font-size: 0.875rem;
   }
-  
-  h1, h2, h3, h4 {
-    margin-top: 0;
-    color: var(--neutral-800);
-    font-weight: 600;
-    line-height: 1.2;
-  }
-  
-  h2 { 
-    font-size: 1.5rem; 
-    margin-bottom: var(--space-4);
-    color: var(--primary-dark);
-  }
-  
-  h3 { 
-    font-size: 1.25rem; 
-    margin-bottom: var(--space-3);
-    color: var(--neutral-700);
-  }
-  
-  a {
-    color: var(--primary);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  
-  a:hover {
-    color: var(--primary-dark);
-    text-decoration: underline;
-  }
-  
-  .button { 
-    display: inline-block; 
-    background-color: var(--primary);
-    color: white; 
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    border: none;
-    font-weight: 500;
-    font-size: 0.9375rem;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    box-shadow: var(--shadow-sm);
-  }
-  
-  .button:hover { 
-    background-color: var(--primary-dark);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-1px);
-    text-decoration: none;
-  }
-  
-  .button:active {
-    transform: translateY(0);
-  }
-  
-  .button.secondary { 
-    background-color: var(--secondary);
-  }
-  
-  .button.secondary:hover { 
-    background-color: var(--secondary-dark);
-  }
-  
-  .button.danger { 
-    background-color: var(--danger);
-  }
-  
-  .button.danger:hover { 
-    background-color: #dc2626;
-  }
-  
-  .button.success {
-    background-color: var(--success);
-  }
-  
-  .button.success:hover {
-    background-color: #059669;
-  }
-  
-  .auth-container {
-    max-width: 420px;
-    margin: var(--space-6) auto;
-    padding: var(--space-6);
-    background-color: white;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--neutral-200);
-  }
-  
-  .form-group { 
-    margin-bottom: var(--space-4);
-  }
-  
-  .form-group label { 
-    display: block; 
-    margin-bottom: var(--space-2);
-    font-weight: 500;
-    color: var(--neutral-700);
-  }
-  
-  .form-group input { 
-    width: 100%; 
-    padding: var(--space-3);
-    box-sizing: border-box; 
-    border: 1px solid var(--neutral-300);
-    border-radius: var(--radius-sm);
-    font-size: 1rem;
-    transition: all 0.2s;
-  }
-  
-  .form-group input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px var(--primary-light);
-    outline: none;
-  }
-  
-  .form-footer {
-    text-align: center;
-    margin-top: var(--space-6);
-    color: var(--neutral-600);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--neutral-200);
-  }
-  
-  .message { 
-    padding: var(--space-4);
-    margin-bottom: var(--space-4);
-    border-radius: var(--radius-sm);
-    border-left: 4px solid transparent;
-  }
-  
-  .success { 
-    background-color: rgba(16, 185, 129, 0.1);
-    border-left-color: var(--success);
-    color: #065f46;
-  }
-  
-  .error { 
-    background-color: rgba(239, 68, 68, 0.1);
-    border-left-color: var(--danger);
-    color: #b91c1c;
-  }
-  
-  @media (max-width: 768px) {
-    .container {
-      width: 95%;
-    }
-    
-    .content {
-      padding: var(--space-4);
-    }
-    
-    .button {
-      padding: var(--space-2) var(--space-3);
-      font-size: 0.875rem;
-    }
-  }
+}
+
   
