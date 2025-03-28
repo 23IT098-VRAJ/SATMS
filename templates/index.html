@@ -3,12 +3,19 @@
 {% block title %}Home - Smart Traffic Management System{% endblock %}
 
 {% block content %}
-    <h2>Welcome, {{ user }}!</h2>
-    <p>You are logged in to the Smart Traffic Management System.</p>
-    <p>Use the buttons below to navigate:</p>
-    <p><a href="{{ url_for('dashboard_web') }}" class="button">Access Dashboard</a></p>
-    {% if is_admin %}
-    <p><a href="{{ url_for('admin_backup_page') }}" class="button">System Administration</a></p>
-    {% endif %}
-    <p><a href="{{ url_for('logout') }}" class="button">Logout</a></p>
+    <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <h2>Welcome, {{ user }}!</h2>
+        <p>You are logged in to the Smart Traffic Management System.</p>
+        
+        <div style="margin-top: 32px; padding: 24px; background-color: var(--primary-bg); border-radius: var(--radius-md); border: 1px solid rgba(8, 145, 178, 0.2);">
+            <h3 style="color: var(--primary-dark);">Navigation</h3>
+            <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+                <a href="{{ url_for('dashboard_web') }}" class="button">Access Dashboard</a>
+                {% if is_admin %}
+                <a href="{{ url_for('admin_backup_page') }}" class="button">System Administration</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}" class="button secondary">Logout</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
