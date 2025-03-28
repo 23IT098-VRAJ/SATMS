@@ -1,26 +1,78 @@
-/* Admin page specific styles */
-table { 
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-5);
+  }
+  
+  table { 
     width: 100%; 
     border-collapse: collapse; 
-    margin-top: 20px; 
-}
-
-th, td { 
+    margin-top: var(--space-5);
+    background-color: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--neutral-200);
+  }
+  
+  th, td { 
     text-align: left; 
-    padding: 12px; 
-    border-bottom: 1px solid #ddd; 
-}
-
-th { 
-    background-color: #f2f2f2; 
-}
-
-.admin-badge { 
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--neutral-200);
+  }
+  
+  th { 
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    font-weight: 600;
+  }
+  
+  tr:last-child td {
+    border-bottom: none;
+  }
+  
+  tr:hover td {
+    background-color: var(--neutral-50);
+  }
+  
+  .admin-badge { 
     display: inline-block; 
-    background-color: #e74c3c; 
+    background-color: var(--danger);
     color: white; 
-    padding: 4px 8px; 
-    border-radius: 3px; 
-    font-size: 12px; 
-    margin-left: 10px; 
-}
+    padding: var(--space-1) var(--space-2); 
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    margin-left: var(--space-2);
+    font-weight: 500;
+    vertical-align: middle;
+  }
+  
+  .backup-section {
+    background-color: var(--primary-bg);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+    border: 1px solid rgba(8, 145, 178, 0.2);
+  }
+  
+  .backup-section h2 {
+    color: var(--primary-dark);
+    margin-top: 0;
+  }
+  
+  td .button {
+    margin-right: var(--space-2);
+  }
+  
+  @media (max-width: 768px) {
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+    
+    th, td {
+      padding: var(--space-3);
+    }
+  }
+  
