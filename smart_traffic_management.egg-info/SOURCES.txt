@@ -1,0 +1,11 @@
+README.md
+setup.py
+smart_traffic_management.egg-info/PKG-INFO
+smart_traffic_management.egg-info/SOURCES.txt
+smart_traffic_management.egg-info/dependency_links.txt
+smart_traffic_management.egg-info/entry_points.txt
+smart_traffic_management.egg-info/requires.txt
+smart_traffic_management.egg-info/top_level.txt
+tests/test_control.py
+tests/test_detection.py
+tests/test_prediction.py

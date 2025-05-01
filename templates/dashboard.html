@@ -1,0 +1,1072 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Smart Traffic Management{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+<style>
+/* Dashboard Navbar Styles */
+.dashboard-navbar {
+    background: linear-gradient(90deg, #1e40af, #3b82f6);
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    margin-bottom: 2rem;
+    border-radius: 0.5rem;
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+.navbar-brand i {
+    margin-right: 0.5rem;
+    font-size: 1.4rem;
+}
+
+.navbar-tabs {
+    display: flex;
+    gap: 1rem;
+}
+
+.navbar-tab {
+    padding: 0.5rem 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 0.25rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-tab i {
+    margin-right: 0.5rem;
+}
+
+.navbar-tab:hover, .navbar-tab.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    background-color: #10b981;
+    box-shadow: 0 0 10px #10b981;
+}
+
+.user-profile {
+    position: relative;
+}
+
+.profile-button {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.profile-button:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.profile-button i {
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .navbar-content {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .navbar-tabs {
+        width: 100%;
+        justify-content: center;
+        overflow-x: auto;
+        padding: 0.5rem 0;
+    }
+    
+    .navbar-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+.light {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 5px;
+    background-color: #333;
+}
+.light.active.red { background-color: #dc3545; }
+.light.active.yellow { background-color: #ffc107; }
+.light.active.green { background-color: #28a745; }
+.traffic-light {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px;
+}
+.light-indicator {
+    display: flex;
+    justify-content: center;
+}
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.events-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+.event-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+.traffic-lights-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.traffic-light-box {
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+
+.traffic-light {
+    width: 80px;
+    height: 220px;
+    background: #333;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5), inset 0 -5px 10px rgba(0,0,0,0.2), inset 0 5px 10px rgba(255,255,255,0.1);
+    border: 4px solid #222;
+    position: relative;
+    overflow: hidden;
+}
+
+.traffic-light::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 100%);
+    pointer-events: none;
+}
+
+.light {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 5px auto;
+    background: #111;
+    border: 3px solid #222;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.light::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    width: 15px;
+    height: 15px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    filter: blur(2px);
+}
+
+.light.red.active { 
+    background: radial-gradient(circle, #ff4444 10%, #cc0000 70%); 
+    box-shadow: 0 0 30px #ff4444, inset 0 0 10px rgba(255,255,255,0.8); 
+    animation: pulseRed 2s infinite;
+}
+
+.light.yellow.active { 
+    background: radial-gradient(circle, #ffbb33 10%, #cc9900 70%); 
+    box-shadow: 0 0 30px #ffbb33, inset 0 0 10px rgba(255,255,255,0.8); 
+    animation: pulseYellow 1s infinite;
+}
+
+.light.green.active { 
+    background: radial-gradient(circle, #00E676 10%, #00C851 70%); 
+    box-shadow: 0 0 30px #00E676, inset 0 0 10px rgba(255,255,255,0.8); 
+    animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseRed {
+    0%, 100% { box-shadow: 0 0 20px #ff4444; }
+    50% { box-shadow: 0 0 30px #ff4444; }
+}
+
+@keyframes pulseYellow {
+    0%, 100% { box-shadow: 0 0 20px #ffbb33; }
+    50% { box-shadow: 0 0 30px #ffbb33; }
+}
+
+@keyframes pulseGreen {
+    0%, 100% { box-shadow: 0 0 20px #00E676; }
+    50% { box-shadow: 0 0 30px #00E676; }
+}
+
+.traffic-light-box {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #f8f9fa;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.traffic-light-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+}
+
+.traffic-light-box h6 {
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.traffic-info {
+    margin-top: 15px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.traffic-info p {
+    margin: 10px 0;
+    font-size: 0.95em;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
+}
+
+.traffic-info p:last-child {
+    border-bottom: none;
+}
+
+.traffic-info .label {
+    font-weight: 500;
+    color: #555;
+}
+
+.traffic-info .value {
+    font-weight: 600;
+}
+
+.traffic-info .value.high {
+    color: #dc3545;
+}
+
+.traffic-info .value.medium {
+    color: #fd7e14;
+}
+
+.traffic-info .value.low {
+    color: #28a745;
+}
+
+.traffic-info .value.prediction {
+    color: #17a2b8;
+    position: relative;
+}
+
+.traffic-info .value.wait-time {
+    color: #6f42c1;
+}
+
+.traffic-info .trend-icon {
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+.traffic-info .trend-up {
+    color: #dc3545;
+}
+
+.traffic-info .trend-down {
+    color: #28a745;
+}
+
+.traffic-info .trend-stable {
+    color: #6c757d;
+}
+
+.events-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.event-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 4px solid;
+    background: #f8f9fa;
+}
+
+.event-item.warning { border-color: #ffc107; }
+.event-item.danger { border-color: #dc3545; }
+.event-item.success { border-color: #28a745; }
+.event-item.info { border-color: #17a2b8; }
+
+.card {
+    height: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: none;
+    border-radius: 8px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.row {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .traffic-lights-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-container {
+        height: 250px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Dashboard Navbar -->
+<div class="dashboard-navbar">
+    <div class="navbar-content">
+        <a href="{{ url_for('dashboard_web') }}" class="navbar-brand">
+            <i class="fas fa-traffic-light"></i>
+            <span>Traffic Control Hub</span>
+        </a>
+        
+        <div class="navbar-tabs">
+            <a href="#overview" class="navbar-tab active">
+                <i class="fas fa-chart-line"></i>
+                <span>Overview</span>
+            </a>
+            <a href="#traffic-control" class="navbar-tab">
+                <i class="fas fa-sliders-h"></i>
+                <span>Traffic Control</span>
+            </a>
+            <a href="#analytics" class="navbar-tab">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#events" class="navbar-tab">
+                <i class="fas fa-bell"></i>
+                <span>Events</span>
+            </a>
+        </div>
+        
+        <div class="navbar-actions">
+            <div class="system-status">
+                <div class="status-indicator"></div>
+                <span>System Online</span>
+            </div>
+            
+            <div class="user-profile">
+                <button class="profile-button">
+                    <i class="fas fa-user-circle"></i>
+                    <span>{{ session.get('user', 'User') }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="overview" class="dashboard-header">
+    <h1>Traffic Management Dashboard</h1>
+    <p>Real-time monitoring and control system for optimizing urban traffic flow</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="stat-vehicles">0</h3>
+                        <p>Active Vehicles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="stat-density">0%</h3>
+                        <p>Traffic Density</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-traffic-light"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="stat-signals">0</h3>
+                        <p>Green Signals</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-ambulance"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="stat-emergency">0</h3>
+                        <p>Emergency Vehicles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<!-- Traffic Flow and Density Charts -->
+<div id="analytics" class="row mb-4">
+    <div class="col-lg-8 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-chart-area"></i> Traffic Flow Trend
+                </h5>
+                <div class="chart-container">
+                    <canvas id="trafficChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-chart-pie"></i> Traffic Density by Direction
+                </h5>
+                <div class="chart-container">
+                    <canvas id="densityChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<!-- Traffic Light Status -->
+<div id="traffic-control" class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-traffic-light"></i> Traffic Light Status
+                </h5>
+                <div class="traffic-lights-container">
+                    <!-- North Junction -->
+                    <div class="traffic-light-box" id="north-junction">
+                        <h6>North Junction</h6>
+                        <div class="traffic-light">
+                            <div class="light red" id="north-red"></div>
+                            <div class="light yellow" id="north-yellow"></div>
+                            <div class="light green" id="north-green"></div>
+                        </div>
+                        <div class="traffic-info">
+                            <p>
+                                <span class="label">Current Density:</span>
+                                <span class="value" id="north-density">0%</span>
+                            </p>
+                            <p>
+                                <span class="label">Predicted:</span>
+                                <span class="value prediction" id="north-prediction">0%</span>
+                            </p>
+                            <p>
+                                <span class="label">Wait Time:</span>
+                                <span class="value wait-time" id="north-wait">0s</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- South Junction -->
+                    <div class="traffic-light-box" id="south-junction">
+                        <h6>South Junction</h6>
+                        <div class="traffic-light">
+                            <div class="light red" id="south-red"></div>
+                            <div class="light yellow" id="south-yellow"></div>
+                            <div class="light green" id="south-green"></div>
+                        </div>
+                        <div class="traffic-info">
+                            <p>
+                                <span class="label">Current Density:</span>
+                                <span class="value" id="south-density">0%</span>
+                            </p>
+                            <p>
+                                <span class="label">Predicted:</span>
+                                <span class="value prediction" id="south-prediction">0%</span>
+                            </p>
+                            <p>
+                                <span class="label">Wait Time:</span>
+                                <span class="value wait-time" id="south-wait">0s</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- East Junction -->
+                    <div class="traffic-light-box" id="east-junction">
+                        <h6>East Junction</h6>
+                        <div class="traffic-light">
+                            <div class="light red" id="east-red"></div>
+                            <div class="light yellow" id="east-yellow"></div>
+                            <div class="light green" id="east-green"></div>
+                        </div>
+                        <div class="traffic-info">
+                            <p>
+                                <span class="label">Current Density:</span>
+                                <span class="value" id="east-density">0%</span>
+                            </p>
+                            <p>
+                                <span class="label">Predicted:</span>
+                                <span class="value prediction" id="east-prediction">0%</span>
+                            </p>
+                            <p>
+                                <span class="label">Wait Time:</span>
+                                <span class="value wait-time" id="east-wait">0s</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- West Junction -->
+                    <div class="traffic-light-box" id="west-junction">
+                        <h6>West Junction</h6>
+                        <div class="traffic-light">
+                            <div class="light red" id="west-red"></div>
+                            <div class="light yellow" id="west-yellow"></div>
+                            <div class="light green" id="west-green"></div>
+                        </div>
+                        <div class="traffic-info">
+                            <p>
+                                <span class="label">Current Density:</span>
+                                <span class="value" id="west-density">0%</span>
+                            </p>
+                            <p>
+                                <span class="label">Predicted:</span>
+                                <span class="value prediction" id="west-prediction">0%</span>
+                            </p>
+                            <p>
+                                <span class="label">Wait Time:</span>
+                                <span class="value wait-time" id="west-wait">0s</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Event Log Section -->
+<div id="events" class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-bell"></i> Event Log
+                </h5>
+                <div class="events-container" id="events-list">
+                    <!-- Events will be dynamically populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- Consolidated library imports -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.5.0/dist/socket.io.min.js"></script>
+<script>
+// Initialize the density chart (using radar type as it's more visually appealing)
+const densityCtx = document.getElementById('densityChart').getContext('2d');
+const densityChart = new Chart(densityCtx, {
+    type: 'radar',
+    data: {
+        labels: ['North', 'South', 'East', 'West'],
+        datasets: [{
+            label: 'Traffic Density',
+            data: [0, 0, 0, 0],
+            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+            borderColor: 'rgba(59, 130, 246, 1)',
+            borderWidth: 2,
+            pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(59, 130, 246, 1)',
+            pointRadius: 5
+        }]
+    },
+    options: {
+        scales: {
+            r: {
+                angleLines: {
+                    display: true,
+                    color: 'rgba(0, 0, 0, 0.1)',
+                },
+                suggestedMin: 0,
+                suggestedMax: 100,
+                ticks: {
+                    stepSize: 20,
+                    backdropColor: 'transparent'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+// Initialize traffic chart
+const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+const trafficChart = new Chart(trafficCtx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [
+            {
+                label: 'North',
+                data: [],
+                borderColor: 'rgba(239, 68, 68, 1)',
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                tension: 0.4,
+                fill: true,
+                borderWidth: 2
+            },
+            {
+                label: 'South',
+                data: [],
+                borderColor: 'rgba(59, 130, 246, 1)',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                tension: 0.4,
+                fill: true,
+                borderWidth: 2
+            },
+            {
+                label: 'East',
+                data: [],
+                borderColor: 'rgba(16, 185, 129, 1)',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                tension: 0.4,
+                fill: true,
+                borderWidth: 2
+            },
+            {
+                label: 'West',
+                data: [],
+                borderColor: 'rgba(245, 158, 11, 1)',
+                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                tension: 0.4,
+                fill: true,
+                borderWidth: 2
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    usePointStyle: true,
+                    padding: 20
+                }
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false,
+                padding: 10,
+                titleFont: {
+                    size: 14,
+                    weight: 'bold'
+                },
+                bodyFont: {
+                    size: 13
+                },
+                borderWidth: 1,
+                borderColor: 'rgba(0,0,0,0.1)',
+                backgroundColor: 'rgba(255,255,255,0.95)',
+                titleColor: '#1e293b',
+                bodyColor: '#475569',
+                boxPadding: 5
+            }
+        },
+        scales: {
+            x: {
+                grid: {
+                    display: false
+                }
+            },
+            y: {
+                beginAtZero: true,
+                min: 0,
+                max: 100,
+                ticks: {
+                    callback: function(value) {
+                        return value + '%';
+                    },
+                    stepSize: 20
+                },
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.05)'
+                }
+            }
+        },
+        animation: {
+            duration: 750,
+            easing: 'easeInOutQuart'
+        }
+    }
+});
+
+// Socket.IO connection with error handling - single, consistent initialization
+let socket;
+try {
+    socket = io();
+    console.log('Socket.IO initialized');
+} catch (e) {
+    console.error('Failed to connect to Socket.IO:', e);
+    showAlert('Connection failed. Please refresh the page.', 'danger');
+}
+
+function showAlert(message, type = 'danger') {
+    const alertHtml = `
+        <div class="alert alert-${type} alert-dismissible fade show mb-3" role="alert">
+            <i class="fas fa-${type === 'danger' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+    document.querySelector('.dashboard-header').insertAdjacentHTML('afterend', alertHtml);
+}
+
+// Handle connection events
+socket.on('connect', function() {
+    console.log('Connected to server');
+    socket.emit('request_update');
+});
+
+socket.on('connect_error', function(error) {
+    console.error('Connection error:', error);
+    showAlert('Connection error. Please check your internet connection.', 'warning');
+});
+
+socket.on('dashboard_update', function(data) {
+    try {
+        // Update statistics with error checking
+        if (data.stats) {
+            document.getElementById('stat-vehicles').textContent = data.stats.vehicles || 0;
+            document.getElementById('stat-density').textContent = data.stats.density || '0%';
+            document.getElementById('stat-signals').textContent = data.stats.signals || 0;
+            document.getElementById('stat-emergency').textContent = data.stats.emergency || 0;
+        }
+        
+        // Update traffic chart
+        const maxDataPoints = 15; // Fewer data points for cleaner visualization
+        const currentTime = new Date().toLocaleTimeString();
+
+        // Add new data point for each direction
+        if (data.densities) {
+            // Always add the time label
+            trafficChart.data.labels.push(currentTime);
+            if (trafficChart.data.labels.length > maxDataPoints) {
+                trafficChart.data.labels.shift();
+            }
+
+            // Update each direction's dataset with current values
+            const directions = ['north', 'south', 'east', 'west'];
+            directions.forEach((direction, index) => {
+                // Apply scaling factor to make differences more visible (15-95% instead of raw values)
+                const scaledDensity = Math.max(15, Math.min(95, data.densities[direction] * 100));
+                
+                // Update density chart with scaled values
+                densityChart.data.datasets[0].data[index] = scaledDensity;
+                
+                // Update traffic flow chart with scaled values
+                trafficChart.data.datasets[index].data.push(scaledDensity);
+                if (trafficChart.data.datasets[index].data.length > maxDataPoints) {
+                    trafficChart.data.datasets[index].data.shift();
+                }
+            });
+
+            // Update charts
+            trafficChart.update();
+            densityChart.update();
+        }
+
+        // Update traffic light states and info
+        if (data.states && data.densities) {
+            const directions = ['north', 'south', 'east', 'west'];
+            directions.forEach(direction => {
+                // Get traffic light state
+                const state = data.states[direction];
+                
+                // Clear all active states first
+                document.querySelectorAll(`#${direction}-junction .light`).forEach(light => {
+                    light.classList.remove('active');
+                });
+                
+                // Set active state
+                if (state) {
+                    const lightElement = document.getElementById(`${direction}-${state}`);
+                    if (lightElement) {
+                        lightElement.classList.add('active');
+                    }
+                }
+
+                // Update density display
+                const density = data.densities[direction];
+                const densityEl = document.getElementById(`${direction}-density`);
+                if (densityEl && density !== undefined) {
+                    // Scale density to make visualization more interesting (15-95%)
+                    const scaledDensity = Math.max(15, Math.min(95, density * 100));
+                    const densityPercent = scaledDensity.toFixed(1);
+                    densityEl.textContent = `${densityPercent}%`;
+                    
+                    // Add color coding based on density value
+                    densityEl.classList.remove('high', 'medium', 'low');
+                    if (scaledDensity > 70) {
+                        densityEl.classList.add('high');
+                    } else if (scaledDensity > 40) {
+                        densityEl.classList.add('medium');
+                    } else {
+                        densityEl.classList.add('low');
+                    }
+                }
+                
+                // Update prediction display
+                const prediction = data.predictions ? data.predictions[direction] : null;
+                const predictionEl = document.getElementById(`${direction}-prediction`);
+                if (predictionEl && prediction !== undefined && prediction !== null) {
+                    // Scale prediction to match density scale
+                    const scaledPred = Math.max(15, Math.min(95, prediction * 100));
+                    const predPercent = scaledPred.toFixed(1);
+                    
+                    // Add trend indicator based on current vs predicted
+                    let trendIcon = '';
+                    if (density && prediction) {
+                        const diff = prediction - density;
+                        if (diff > 0.05) {
+                            trendIcon = '<i class="fas fa-arrow-up trend-icon trend-up"></i>';
+                        } else if (diff < -0.05) {
+                            trendIcon = '<i class="fas fa-arrow-down trend-icon trend-down"></i>';
+                        } else {
+                            trendIcon = '<i class="fas fa-equals trend-icon trend-stable"></i>';
+                        }
+                    }
+                    
+                    predictionEl.innerHTML = `${predPercent}% ${trendIcon}`;
+                }
+                
+                // Update wait time display
+                const waitTime = data.wait_times ? data.wait_times[direction] : 0;
+                const waitEl = document.getElementById(`${direction}-wait`);
+                if (waitEl && waitTime !== undefined) {
+                    waitEl.textContent = `${Math.round(waitTime)}s`;
+                }
+            });
+        }
+        
+        // Update events
+        if (data.events && data.events.length > 0) {
+            const eventsContainer = document.getElementById('events-list');
+            
+            // Clear the container if it has the loading spinner
+            if (eventsContainer.querySelector('.fa-spinner')) {
+                eventsContainer.innerHTML = '';
+            }
+            
+            // Add new events to the container
+            data.events.forEach(event => {
+                // Skip if event is already displayed
+                if (document.getElementById(`event-${event.time.replace(/:/g, '-')}`)) {
+                    return;
+                }
+                
+                let eventClass = 'info';
+                let iconClass = 'info-circle';
+                
+                switch(event.type) {
+                    case 'warning':
+                        eventClass = 'warning';
+                        iconClass = 'exclamation-triangle';
+                        break;
+                    case 'emergency':
+                        eventClass = 'danger';
+                        iconClass = 'ambulance';
+                        break;
+                    case 'phase_change':
+                        eventClass = 'success';
+                        iconClass = 'traffic-light';
+                        break;
+                    default:
+                        eventClass = 'info';
+                        iconClass = 'info-circle';
+                }
+                
+                const eventHtml = `
+                    <div class="event-item ${eventClass}" id="event-${event.time.replace(/:/g, '-')}">
+                        <div class="event-time">${event.time}</div>
+                        <div class="event-content">
+                            <div class="event-icon">
+                                <i class="fas fa-${iconClass}"></i>
+                            </div>
+                            <div class="event-message">${event.message}</div>
+                        </div>
+                    </div>
+                `;
+                
+                eventsContainer.insertAdjacentHTML('afterbegin', eventHtml);
+            });
+            
+            // Limit events display to 10
+            const eventElements = eventsContainer.querySelectorAll('.event-item');
+            if (eventElements.length > 10) {
+                for (let i = 10; i < eventElements.length; i++) {
+                    eventElements[i].remove();
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error updating dashboard:', error);
+    }
+});
+
+// Request updates periodically - single interval
+setInterval(function() {
+    if (socket && socket.connected) {
+        socket.emit('request_update');
+    }
+}, 1000);
+
+// Add smooth scrolling for navbar links
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.navbar-tab');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Get the target section ID
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetSection) {
+                // Smooth scroll to target
+                window.scrollTo({
+                    top: targetSection.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

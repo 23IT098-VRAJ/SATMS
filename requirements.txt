@@ -1,0 +1,41 @@
+# Web Framework
+Flask==2.3.3
+Werkzeug==2.3.7
+
+# Data Processing and Analysis
+numpy==1.24.3
+pandas==2.0.3
+scipy==1.10.1
+
+# Data Visualization
+matplotlib==3.7.2
+plotly==5.16.1
+
+# Web Interface
+Bootstrap-Flask==2.3.0
+Flask-Login==0.6.2
+Flask-WTF==1.1.1
+Flask-SocketIO==5.3.4
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2023.3
+schedule==1.2.0
+requests==2.31.0
+
+# Security
+PyOpenSSL==23.2.0
+cryptography==41.0.3
+
+# Development and Testing
+pytest==7.4.0
+pytest-cov==4.1.0
+black==23.7.0
+flake8==6.1.0
+
+# Logging and Monitoring
+logging==0.4.9.6
+python-json-logger==2.0.7
+
+# Data Storage
+pickle5==0.0.12

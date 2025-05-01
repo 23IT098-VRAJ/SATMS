@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: smart_traffic_management
+Version: 1.0.0
+Summary: A smart AI-based traffic management system
+Author: Your Name
+Author-email: your.email@example.com
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.8
+Requires-Dist: flask>=3.0.0
+Requires-Dist: werkzeug>=3.0.0
+Requires-Dist: numpy>=1.26.0
+Requires-Dist: pandas>=2.1.0
+Requires-Dist: scipy>=1.11.0
+Requires-Dist: matplotlib>=3.8.0
+Requires-Dist: plotly>=5.18.0
+Requires-Dist: bootstrap-flask>=2.3.0
+Requires-Dist: flask-login>=0.6.3
+Requires-Dist: flask-wtf>=1.2.0
+Requires-Dist: python-dateutil>=2.8.2
+Requires-Dist: pytz>=2023.3
+Requires-Dist: schedule>=1.2.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: pyopenssl>=23.2.0
+Requires-Dist: cryptography>=41.0.3
+Requires-Dist: pytest>=7.4.0
+Requires-Dist: pytest-cov>=4.1.0
+Requires-Dist: black>=23.7.0
+Requires-Dist: flake8>=6.1.0
+Requires-Dist: python-json-logger>=2.0.7
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
